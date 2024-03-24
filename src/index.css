@@ -9,8 +9,9 @@ body{
   background-size: cover;
   font-family: Nunito;
 }
-.home-head-h1{
+.heading-md{
   color: #fff;
+  font-size:20px;
 }
 .home-app-name{
   color: #8FB2F5;
