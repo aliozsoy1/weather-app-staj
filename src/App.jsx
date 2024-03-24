@@ -12,7 +12,7 @@ function App() {
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
       </div>
-      <h1 className='home-head-h1'>Welcome to <span className='home-app-name'>TypeWeather</span></h1>
+      <h1 className='heading-md'>Welcome to <span className='home-app-name'>TypeWeather</span></h1>
       
     </>
   )
