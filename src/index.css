@@ -1,7 +1,13 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 body{
   background-image: url(./images/body-bg.png);
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: Nunito;
 }
 .home-head-h1{
   color: #fff;
