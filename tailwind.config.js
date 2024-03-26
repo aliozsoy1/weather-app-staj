@@ -9,6 +9,7 @@ export default {
       colors:{
         'product' : '#8FB2F5',
         'textbox-bg' : '#1E1E29',
+        'city-list' : '#3B3B54',
         'base' : {
           '900' : '#13131A',
           '800' : '#16161F',
@@ -20,8 +21,8 @@ export default {
           '200' : '#BFBFD4',
           '100' : '#FAFAFA',
           'white' : '#FFFFFF',
-        }
-      },
+        },
+      }
     },
   },
   plugins: [],
