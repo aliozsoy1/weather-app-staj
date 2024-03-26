@@ -12,6 +12,7 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
   font-family: Nunito;
+  background-position: center;
 }
 .heading-md{
   color: #fff;
