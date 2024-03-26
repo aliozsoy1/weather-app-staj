@@ -8,6 +8,7 @@ export default {
     extend: {
       colors:{
         'product' : '#8FB2F5',
+        'textbox-bg' : '#1E1E29',
         'base' : {
           '900' : '#13131A',
           '800' : '#16161F',
