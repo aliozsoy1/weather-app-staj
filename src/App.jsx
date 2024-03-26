@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between h-screen">
+      <div className="flex flex-col items-center justify-between h-[80vh]">
         <div className="mt-10"> 
           <a href="#" target="_blank">
             <img src={viteLogo} className="logo" alt="Vite logo" />
