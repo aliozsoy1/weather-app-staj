@@ -22,10 +22,10 @@ export default {
         },
       },
       backgroundImage: {
-        "clear-day": "url('./src/images/weatherbg-images/bg-clear-day.jpg')",
-        "clear-night": "url('./src/images/weatherbg-images/bg-clear-night.png')",
-        "cloudy-day": "url('./src/images/weatherbg-images/bg-cloudy-day.jpg')",
-        "cloudy-night": "url('./src/images/weatherbg-images/bg-cloudy-night.png')",
+        "clear-day": "url('/src/images/weatherbg-images/bg-clear-day.jpg')",
+        "clear-night": "url('/src/images/weatherbg-images/bg-clear-night.png')",
+        "cloudy-day": "url('/src/images/weatherbg-images/bg-cloudy-day.jpg')",
+        "cloudy-night": "url('/src/images/weatherbg-images/bg-cloudy-night.png')",
       },
       fontSize: {
         'heading-hg': '6rem', // 96px
