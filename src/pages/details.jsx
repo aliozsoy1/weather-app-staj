@@ -26,6 +26,8 @@ function WeatherCityDetails() {
   }
 
   const temperature = Math.floor(cityDetails.main.temp);
+  const mintemperature = Math.floor(cityDetails.main.temp_min);
+  const maxtemperature = Math.floor(cityDetails.main.temp_max);
   const weatherCondition = cityDetails.weather[0].main.toLowerCase();
   const dayTime = isDayTime(cityDetails);
 
@@ -80,8 +82,16 @@ function WeatherCityDetails() {
       <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white`}>
         <h2 className='text-heading-sm font-text-bold'>{cityDetails.name}, {cityDetails.sys.country}</h2>
         <h3 className='text-heading-xs font-text-normal mb-20'>{dayName}, {formattedDate}</h3>
-        <h2>{temperature}°C</h2>
-        <h2>{cityDetails.weather[0].main}</h2>
+        <div className='flex flex-row items-center'>
+          <div className='mr-12'>
+            <h2 className='text-heading-xl font-heading-extrabold'>{temperature}°c</h2>
+            <h2 className='text-heading-sm font-text-bold'>{mintemperature}°c / {maxtemperature}°c</h2>
+            <h2>{cityDetails.weather[0].description}</h2>
+          </div>
+          <div className=''>
+            <img src={`./src/images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
+          </div>
+        </div>
       </div>
     </div>
   );
