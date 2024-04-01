@@ -4,8 +4,17 @@ import '../App.css';
 
 function WeatherCityDetails() {
   const [cityDetails, setCityDetails] = useState(null);
+  const [dailyForecast, setDailyForecast] = useState([]);
   const { cityName } = useParams();
   const API_KEY = 'e165b9c683c0bb393e0bacfe61b65d29';
+
+  const getDayName = (dateString) => {
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + 1); // Bir sonraki günü almak için günü bir arttırıyoruz
+    const dayIndex = date.getDay();
+    return daysOfWeek[dayIndex];
+  };
 
   useEffect(() => {
     const fetchCityDetails = async () => {
@@ -17,11 +26,40 @@ function WeatherCityDetails() {
         console.error('Error fetching city details:', error);
       }
     };
-    
+
+    const fetchDailyForecast = async () => {
+      try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`);
+        const data = await response.json();
+        const dailyData = extractDailyForecast(data.list);
+        setDailyForecast(dailyData);
+      } catch (error) {
+        console.error('Error fetching daily forecast:', error);
+      }
+    };
+
     fetchCityDetails();
+    fetchDailyForecast();
   }, [cityName, API_KEY]);
 
-  if (!cityDetails) {
+  const extractDailyForecast = (forecastList) => {
+    const dailyForecastData = {};
+    forecastList.forEach(forecast => {
+      const date = new Date(forecast.dt_txt);
+      const day = getDayName(date);
+      if (!dailyForecastData[day]) {
+        dailyForecastData[day] = {
+          date: day,
+          temperaturemax: Math.floor(forecast.main.temp_max),
+          temperaturemin: Math.floor(forecast.main.temp_min),
+          icon: forecast.weather[0].icon
+        };
+      }
+    });
+    return Object.values(dailyForecastData);
+  };
+
+  if (!cityDetails || dailyForecast.length === 0) {
     return <div>Loading...</div>;
   }
 
@@ -78,25 +116,26 @@ function WeatherCityDetails() {
   const dayName = daysOfWeek[dayIndex];
   const formattedDate = date.toLocaleDateString();
 
+
   return (
     <div>
-    <div className={"p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between"}>
-      <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white`}>
+    <div className={"p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between mx-2 mt-2"}>
+      <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white w-full`}>
         <h2 className='text-heading-sm font-text-bold'>{cityDetails.name}, {cityDetails.sys.country}</h2>
-        <h3 className='text-heading-xs font-text-normal mb-20'>{dayName}, {formattedDate}</h3>
+        <h3 className='text-heading-xs font-text-normal mb-5'>{dayName}, {formattedDate}</h3>
         <div className='flex flex-row items-center'>
           <div className='mr-12'>
             <h2 className='text-heading-xl font-heading-extrabold'>{temperature}°c</h2>
             <h2 className='text-heading-sm font-text-bold'>{mintemperature}°c / {maxtemperature}°c</h2>
             <h2 className='capitalize'>{cityDetails.weather[0].description}</h2>
           </div>
-          <div className=''>
+          <div className='ml-auto'>
             <img src={`./images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
           </div>
         </div>
       </div>
     </div>
-    <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white"}>
+    <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white mx-2"}>
       <div className="flex flex-col space-y-3 w-full max-w-screen-sm p-3">
         <div className="flex justify-between items-center border-b border-base-700 pb-3">
           <span className="font-semibold text-lg pr-3">
@@ -132,6 +171,24 @@ function WeatherCityDetails() {
         </div>
       </div>
     </div>
+    <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
+        <div className="flex flex-row w-full p-3">
+          {dailyForecast.map((forecast, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <span className="font-semibold text-lg">
+              {forecast.date} {getDayName(forecast.date)} 
+              </span>
+              <span className="font-semibold text-lg text-right pl-3 ml-auto text-heading-sm">
+                <img className='w-16' src={`./images/icons/${forecast.icon}.svg`} alt="Weather Icon"/>
+              </span>
+              <div className="flex flex-col">
+                <span className="px-3 text-white text-text-sm font-text-bold">{forecast.temperaturemax}°c</span>
+                <span className="px-3 text-base-200 text-text-sm font-text-bold">{forecast.temperaturemin}°c</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
