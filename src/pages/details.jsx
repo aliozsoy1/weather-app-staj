@@ -89,7 +89,7 @@ function WeatherCityDetails() {
             <h2 className='capitalize'>{cityDetails.weather[0].description}</h2>
           </div>
           <div className=''>
-            <img src={`./src/images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
+            <img src={`${process.env.PUBLIC_URL}/src/images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
           </div>
         </div>
       </div>
