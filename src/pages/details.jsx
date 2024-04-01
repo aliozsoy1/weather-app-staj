@@ -21,9 +21,6 @@ function WeatherCityDetails() {
     fetchCityDetails();
   }, [cityName, API_KEY]);
 
-  if (!cityDetails) {
-    return <div>Loading...</div>;
-  }
 
   const temperature = Math.floor(cityDetails.main.temp);
   const mintemperature = Math.floor(cityDetails.main.temp_min);
