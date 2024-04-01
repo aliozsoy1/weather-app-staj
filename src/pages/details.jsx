@@ -86,7 +86,7 @@ function WeatherCityDetails() {
           <div className='mr-12'>
             <h2 className='text-heading-xl font-heading-extrabold'>{temperature}°c</h2>
             <h2 className='text-heading-sm font-text-bold'>{mintemperature}°c / {maxtemperature}°c</h2>
-            <h2>{cityDetails.weather[0].description}</h2>
+            <h2 className='capitalize'>{cityDetails.weather[0].description}</h2>
           </div>
           <div className=''>
             <img src={`./src/images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
