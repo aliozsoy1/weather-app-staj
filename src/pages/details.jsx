@@ -17,7 +17,7 @@ function WeatherCityDetails() {
         console.error('Error fetching city details:', error);
       }
     };
-
+    
     fetchCityDetails();
   }, [cityName, API_KEY]);
 
@@ -28,6 +28,7 @@ function WeatherCityDetails() {
   const temperature = Math.floor(cityDetails.main.temp);
   const mintemperature = Math.floor(cityDetails.main.temp_min);
   const maxtemperature = Math.floor(cityDetails.main.temp_max);
+  const windspeed = Math.floor(cityDetails.wind.speed);
   const weatherCondition = cityDetails.weather[0].main.toLowerCase();
   const dayTime = isDayTime(cityDetails);
 
@@ -78,6 +79,7 @@ function WeatherCityDetails() {
   const formattedDate = date.toLocaleDateString();
 
   return (
+    <div>
     <div className={"p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between"}>
       <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white`}>
         <h2 className='text-heading-sm font-text-bold'>{cityDetails.name}, {cityDetails.sys.country}</h2>
@@ -93,6 +95,43 @@ function WeatherCityDetails() {
           </div>
         </div>
       </div>
+    </div>
+    <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white"}>
+      <div className="flex flex-col space-y-3 w-full max-w-screen-sm p-3">
+        <div className="flex justify-between items-center border-b border-base-700 pb-3">
+          <span className="font-semibold text-lg pr-3">
+            <img src='./images/icons/thermal-sensation.svg'></img></span>
+          <div className="flex">
+            <span className="px-3 text-base-200 text-heading-xs font-text-bold">Thermal Sensation</span>
+          </div>
+          <span className="font-semibold text-lg text-right pl-3 ml-auto text-heading-sm">{temperature}°c</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-base-700 pb-3">
+          <span className="font-semibold text-lg pr-3">
+            <img src='./images/icons/probability-of-rain.svg'></img></span>
+          <div className="flex">
+            <span className="px-3 text-base-200 text-heading-xs font-text-bold">Probability of Rain</span>
+          </div>
+          <span className="font-semibold text-lg text-right pl-3 ml-auto text-heading-sm">{cityDetails.clouds.all}%</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-base-700 pb-3">
+          <span className="font-semibold text-lg pr-3">
+            <img src='./images/icons/wind-speed.svg'></img></span>
+          <div className="flex">
+            <span className="px-3 text-base-200 text-heading-xs font-text-bold">Wind Speed</span>
+          </div>
+          <span className="font-semibold text-lg text-right pl-3 ml-auto text-heading-sm">{windspeed} km/h</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="font-semibold text-lg pr-3">
+            <img src='./images/icons/air-humadity.svg'></img></span>
+          <div className="flex">
+            <span className="px-3 text-base-200 text-heading-xs font-text-bold">Air Humidity</span>
+          </div>
+          <span className="font-semibold text-lg text-right pl-3 ml-auto text-heading-sm">{cityDetails.main.humidity}%</span>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }
