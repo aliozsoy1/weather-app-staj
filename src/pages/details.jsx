@@ -15,10 +15,10 @@ function WeatherCityDetails() {
   const getDayName = (dateString) => {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const date = new Date(dateString);
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate());
     const dayIndex = date.getDay();
     return daysOfWeek[dayIndex];
-  };
+};
 
   useEffect(() => {
     const fetchCityDetails = async () => {
@@ -58,6 +58,7 @@ function WeatherCityDetails() {
           humiditychart: Math.floor(forecast.main.humidity),
           windchart: Math.floor(forecast.wind.speed),
           temperaturemin: Math.floor(forecast.main.temp_min),
+          raincarcontrol: forecast.weather[0].main,
           icon: forecast.weather[0].icon
         };
       }
@@ -75,6 +76,7 @@ function WeatherCityDetails() {
   const windspeed = Math.floor(cityDetails.wind.speed);
   const weatherCondition = cityDetails.weather[0].main.toLowerCase();
   const dayTime = isDayTime(cityDetails);
+  const raincarcontrol = cityDetails.weather[0].main;
 
   function isDayTime(details) {
     const sunrise = details.sys.sunrise * 1000; 
@@ -167,6 +169,19 @@ function WeatherCityDetails() {
     ]
   };
 
+  const Raincontrol = ({ forecast }) => {
+    if (forecast.raincarcontrol == 'Rain') {  
+      return <div className='w-full flex flex-row text-text-sm'>
+              <img src='./images/icons/warning.svg' className='pr-3'></img>5 gün içinde yağmur görünüyor. 
+              <br></br>Arabanızı yıkamanızı tavsiye etmiyoruz.
+            </div>
+    } else {
+      return <div className='w-full flex flex-row text-text-sm'>
+        <img src='./images/icons/smiley.svg' className='pr-3'></img>
+        5 gün içinde hava içinde temiz görünüyor. 
+          <br></br>Arabanızı yıkayabilirsiniz.</div>
+    }
+  }
 
   const toggleDiv = () => {
     setIsOpen(!isOpen); // isOpen değerini tersine çevirir
@@ -243,6 +258,7 @@ function WeatherCityDetails() {
           ))}
         </div>
       </div>
+      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}> <Raincontrol forecast={dailyForecast[0]} /></div>
       <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
         <button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button>
       </div>
