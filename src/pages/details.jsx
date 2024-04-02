@@ -182,7 +182,7 @@ function WeatherCityDetails() {
     } else {
       return <div className='w-full flex flex-row text-text-sm'>
         <img src='./images/icons/smiley.svg' className='pr-3'></img>
-        5 gün içinde hava içinde temiz görünüyor. 
+        5 gün içinde hava temiz görünüyor. 
           <br></br>Arabanızı yıkayabilirsiniz.</div>
     }
   }
