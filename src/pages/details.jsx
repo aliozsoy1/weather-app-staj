@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import '../App.css';
 
 function WeatherCityDetails() {
@@ -19,9 +20,8 @@ function WeatherCityDetails() {
   useEffect(() => {
     const fetchCityDetails = async () => {
       try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
-        setCityDetails(data);
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`);
+        setCityDetails(response.data);
       } catch (error) {
         console.error('Error fetching city details:', error);
       }
@@ -29,8 +29,8 @@ function WeatherCityDetails() {
 
     const fetchDailyForecast = async () => {
       try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`);
+        const data = response.data;
         const dailyData = extractDailyForecast(data.list);
         setDailyForecast(dailyData);
       } catch (error) {

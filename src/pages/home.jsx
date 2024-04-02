@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import viteLogo from '../images/logo.svg';
 import '../App.css';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Home() {
   const [city, setCity] = useState('');
@@ -34,8 +35,8 @@ function Home() {
       const fetchWeatherData = async () => {
         setLoading(true);
         try {
-          const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
-          const data = await response.json();
+          const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
+          const data = response.data;
           setCity(data.name);
           setCountry(data.sys.country);
         } catch (error) {
@@ -59,8 +60,8 @@ function Home() {
         setCities([]);
         return;
       }
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/find?q=${value}&type=like&appid=${API_KEY}`);
-      const data = await response.json();
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/find?q=${value}&type=like&appid=${API_KEY}`);
+      const data = response.data;
       if (data && data.list) {
         setCities(data.list.map(city => city.name));
         setCountry(data.list.map(city => city.sys.country));
@@ -77,8 +78,8 @@ function Home() {
   const getWeatherData = async () => {
     if (userLocation) {
       try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
+        const data = response.data;
         const cityName = data.name;
         history(`/weather-app-staj/${cityName}`);
       } catch (error) {
