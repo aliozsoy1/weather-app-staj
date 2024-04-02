@@ -132,7 +132,7 @@ function WeatherCityDetails() {
         label: 'Temperature (°C)',
         data: dailyForecast.map(forecast => forecast.temperature),
         fill: false,
-        borderColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 0.4)',
         tension: 0.4
       }
     ]
@@ -147,7 +147,7 @@ function WeatherCityDetails() {
         label: 'Air Humidty (%)',
         data: dailyForecast.map(forecast => forecast.humiditychart),
         fill: false,
-        borderColor: 'rgba(99, 132, 255, 0.2)',
+        borderColor: 'rgba(99, 132, 255, 0.4)',
         tension: 0.4
       }
     ]
@@ -161,7 +161,7 @@ function WeatherCityDetails() {
         label: 'Wind Speed (km/h)',
         data: dailyForecast.map(forecast => forecast.windchart),
         fill: false,
-        borderColor: 'rgba(99, 255, 132, 0.2)',
+        borderColor: 'rgba(99, 255, 132, 0.4)',
         tension: 0.4
       }
     ]
