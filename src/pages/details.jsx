@@ -92,10 +92,12 @@ function WeatherCityDetails() {
           return 'bg-clear-day';
         case 'clouds':
           return 'bg-cloudy-day';
+        case 'few clouds':
+          return 'bg-fewcloudy-day';
         case 'rain':
           return 'bg-rainy-day';
-        case 'snow':
-          return 'bg-snowy-day';
+        case 'storm':
+          return 'bg-storm-day';
         default:
           return 'bg-default-day';
       }
@@ -105,10 +107,12 @@ function WeatherCityDetails() {
           return 'bg-clear-night';
         case 'clouds':
           return 'bg-cloudy-night';
+        case 'few clouds':
+          return 'bg-fewcloudy-night';
         case 'rain':
           return 'bg-rainy-night';
-        case 'snow':
-          return 'bg-snowy-night';
+        case 'storm':
+          return 'bg-storm-night';
         default:
           return 'bg-default-night';
       }

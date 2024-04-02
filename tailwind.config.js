@@ -26,6 +26,14 @@ export default {
         "clear-night": "url('/src/images/weatherbg-images/bg-clear-night.png')",
         "cloudy-day": "url('/src/images/weatherbg-images/bg-cloudy-day.jpg')",
         "cloudy-night": "url('/src/images/weatherbg-images/bg-cloudy-night.png')",
+        "fewcloudy-day": "url('/src/images/weatherbg-images/bg-fewclouds-night.png')",
+        "fewcloudy-night": "url('/src/images/weatherbg-images/bg-fewclouds-night.png')",
+        "rainy-day": "url('/src/images/weatherbg-images/bg-rain-night.png')",
+        "rainy-night": "url('/src/images/weatherbg-images/bg-rain-night.png')",
+        "storm-day": "url('/src/images/weatherbg-images/bg-storm-night.png')",
+        "storm-night": "url('/src/images/weatherbg-images/bg-storm-night.png')",
+        "default-day": "url('/src/images/weatherbg-images/bg-cloudy-night.png')",
+        "default-night": "url('/src/images/weatherbg-images/bg-cloudy-night.png')",
       },
       fontSize: {
         'heading-hg': '6rem', // 96px
