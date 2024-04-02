@@ -1,13 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import viteLogo from '../images/logo.svg';
 import '../App.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Home() {
   const [city, setCity] = useState('');
   const [cities, setCities] = useState([]);
   const [country, setCountry] = useState('');
+  const [userLocation, setUserLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const API_KEY = 'e165b9c683c0bb393e0bacfe61b65d29';
+  const history = useNavigate();
+
+  useEffect(() => {
+    const getUserLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation(position.coords);
+        },
+        (error) => {
+          console.error('Error getting user location:', error);
+          setError('Could not retrieve user location');
+        }
+      );
+    };
+
+    getUserLocation();
+  }, []);
+
+  useEffect(() => {
+    if (userLocation) {
+      const fetchWeatherData = async () => {
+        setLoading(true);
+        try {
+          const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
+          const data = await response.json();
+          setCity(data.name);
+          setCountry(data.sys.country);
+          // Kullanıcı konum bilgisini aldıktan sonra otomatik olarak diğer sayfaya yönlendirme
+          history(`/weather-app-staj/${data.name}`);
+        } catch (error) {
+          console.error('Error fetching weather data:', error);
+          setError('Could not fetch weather data');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchWeatherData();
+    }
+  }, [userLocation, history]);
 
   const handleCityChange = async (e) => {
     const { value } = e.target;
@@ -29,12 +72,13 @@ function Home() {
       }
     } catch (error) {
       console.error('Error fetching city data:', error);
+      setError('Could not fetch city data');
     }
   };
 
   const getWeatherData = (cityName) => {
     console.log('Getting weather data for:', cityName);
-     
+    // Burada hava durumu verilerini almak için gerekli işlemler yapılabilir
   };
 
   return (
