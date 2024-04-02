@@ -232,7 +232,7 @@ function WeatherCityDetails() {
               <span className="font-semibold text-lg">
               {forecast.date} {getDayName(forecast.date)} 
               </span>
-              <span className="font-semibold text-lg text-right pl-3 ml-auto text-heading-sm">
+              <span className="font-semibold text-lg text-right ml-auto text-heading-sm">
                 <img className='w-16' src={`./images/icons/${forecast.icon}.svg`} alt="Weather Icon"/>
               </span>
               <div className="flex flex-col">
