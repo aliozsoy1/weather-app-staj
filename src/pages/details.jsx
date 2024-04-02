@@ -176,14 +176,15 @@ function WeatherCityDetails() {
   const Raincontrol = ({ forecast }) => {
     if (forecast.raincarcontrol == 'Rain') {  
       return <div className='w-full flex flex-row text-text-sm'>
-              <img src='./images/icons/warning.svg' className='pr-3'></img>5 gün içinde yağmur görünüyor. 
-              <br></br>Arabanızı yıkamanızı tavsiye etmiyoruz.
+              <img src='./images/icons/warning.svg' className='pr-3'></img>
+              Rain is expected for the next 5 days. 
+              <br></br>We advise against washing your car.
             </div>
     } else {
       return <div className='w-full flex flex-row text-text-sm'>
         <img src='./images/icons/smiley.svg' className='pr-3'></img>
-        5 gün içinde hava temiz görünüyor. 
-          <br></br>Arabanızı yıkayabilirsiniz.</div>
+        Looks like clear weather for the next 5 days. 
+          <br></br>You can wash your car.</div>
     }
   }
 
