@@ -47,7 +47,7 @@ function Home() {
         } else if (error.response && error.response.status === 429) {
           setErrorMsg('API limit exceeded. Please try again later.');
         } else if (error.response && error.response.status === 401) {
-          setErrorMsg('Invalid Api Key');
+          setErrorMsg('An error occurred while fetching city details. Please try again later.');
         }else {
           setErrorMsg('An error occurred while fetching city details. Please try again later.');
         }
