@@ -276,7 +276,7 @@ function WeatherCityDetails() {
         </div>
     </div>
     <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
-        <div className="flex flex-row w-full p-3">
+        <div className="flex flex-row w-full p-3 justify-between">
           {dailyForecast.map((forecast, index) => (
             <div key={index} className="flex flex-col items-center">
               <span className="font-semibold text-lg">
