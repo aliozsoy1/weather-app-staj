@@ -7,11 +7,12 @@ import axios from 'axios';
 function Home() {
   const [city, setCity] = useState('');
   const [cities, setCities] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [country, setCountry] = useState('');
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const API_KEY = 'e165b9c683c0bb393e0bacfe61b65d29';
+  const API_KEY = '4fc3500e52a091eaabba7ee7145fed4b';
   const history = useNavigate();
 
   useEffect(() => {
@@ -40,8 +41,16 @@ function Home() {
           setCity(data.name);
           setCountry(data.sys.country);
         } catch (error) {
-          console.error('Error fetching weather data:', error);
-          setError('Could not fetch weather data');
+          console.error('Error fetching city details:', error);
+        if (error.response && error.response.status === 404) {
+          setErrorMsg('City not found. Please enter a valid city name.');
+        } else if (error.response && error.response.status === 429) {
+          setErrorMsg('API limit exceeded. Please try again later.');
+        } else if (error.response && error.response.status === 401) {
+          setErrorMsg('Invalid Api Key');
+        }else {
+          setErrorMsg('An error occurred while fetching city details. Please try again later.');
+        }
         } finally {
           setLoading(false);
         }
@@ -83,7 +92,8 @@ function Home() {
         const cityName = data.name;
         history(`/weather-app-staj/${cityName}`);
       } catch (error) {
-        console.error('Error fetching weather data:', error);
+        console.error('Error fetching city data:', error);
+        setError('Could not fetch city data');
       }
     }
   };
@@ -108,6 +118,7 @@ function Home() {
             ))}
           </ul>
         </div>
+        {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
         <button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg mt-4" onClick={getWeatherData}>Get Weather for Current Location</button>
       </div>
     </div>

@@ -7,10 +7,11 @@ import Chart from 'chart.js/auto';
 
 function WeatherCityDetails() {
   const [cityDetails, setCityDetails] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [dailyForecast, setDailyForecast] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const { cityName } = useParams();
-  const API_KEY = 'e165b9c683c0bb393e0bacfe61b65d29';
+  const API_KEY = '4fc3500e52a091eaabba7ee7145fed4b';
 
   const getDayName = (dateString) => {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -25,8 +26,16 @@ function WeatherCityDetails() {
       try {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`);
         setCityDetails(response.data);
+        setErrorMsg(null); // Hata olmadığında hata mesajını temizle
       } catch (error) {
         console.error('Error fetching city details:', error);
+        if (error.response && error.response.status === 404) {
+          setErrorMsg('City not found. Please enter a valid city name.');
+        } else if (error.response && error.response.status === 429) {
+          setErrorMsg('API limit exceeded. Please try again later.');
+        } else {
+          setErrorMsg('An error occurred while fetching city details. Please try again later.');
+        }
       }
     };
 
@@ -38,6 +47,18 @@ function WeatherCityDetails() {
         setDailyForecast(dailyData);
       } catch (error) {
         console.error('Error fetching daily forecast:', error);
+        if (error.response) {
+          // API yanıtı alındı, ancak istek başarısız oldu (HTTP durum kodu başka bir şey)
+          console.error('Error response data:', error.response.data);
+          console.error('Error response status:', error.response.status);
+          console.error('Error response headers:', error.response.headers);
+        } else if (error.request) {
+          // Hiçbir yanıt alınamadı
+          console.error('No response was received:', error.request);
+        } else {
+          // Bir şey istek yaparken hata oluştu
+          console.error('An error occurred while making the request:', error.message);
+        }
       }
     };
 
@@ -65,10 +86,13 @@ function WeatherCityDetails() {
     });
     return Object.values(dailyForecastData);
   };
-
-  if (!cityDetails || dailyForecast.length === 0) {
-    return <div>Loading...</div>;
+  if (errorMsg) {
+    return <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>;
   }
+  if (!cityDetails || dailyForecast.length === 0) {
+    return <div>Error. Please try again later.</div>;
+  }
+  
 
   const temperature = Math.floor(cityDetails.main.temp);
   const mintemperature = Math.floor(cityDetails.main.temp_min);
@@ -269,6 +293,7 @@ function WeatherCityDetails() {
           ))}
         </div>
       </div>
+      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
       <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}> <RainControl forecasts={dailyForecast} /></div>
       <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
         <a href="#graphs" className=' w-full'><button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button></a>
