@@ -173,23 +173,29 @@ function WeatherCityDetails() {
     ]
   };
 
-  const Raincontrol = ({ forecast }) => {
-    if (forecast.raincarcontrol == 'Rain') {  
-      return <div className='w-full flex flex-row text-text-sm'>
-              <img src='./images/icons/warning.svg' className='pr-3'></img>
-              Rain is expected for the next 5 days. 
-              <br></br>We advise against washing your car.
-            </div>
-    } else {
-      return <div className='w-full flex flex-row text-text-sm'>
-        <img src='./images/icons/smiley.svg' className='pr-3'></img>
-        Looks like clear weather for the next 5 days. 
-          <br></br>You can wash your car.</div>
-    }
+  const RainControl = ({ forecasts }) => {
+    // Beş günlük hava durumu tahminlerinde yağmur kontrolü yapılıyor
+    const hasRainyDays = forecasts.slice(0, 5).some(forecast => forecast.raincarcontrol === 'Rain');
+  
+    return (
+      <div className='w-full flex flex-row text-text-sm max-w-sm'>
+        <img src={`./images/icons/${hasRainyDays ? 'warning.svg' : 'smiley.svg'}`} className='pr-3' alt="Icon" />
+        {hasRainyDays ?
+          <div className='w-full'>
+            Rain is expected in the next 5 days. We recommend that you do not wash your car.
+          </div>
+          :
+          <>
+            Looks like clear weather for the next 5 days. You can wash your car.
+          </>
+        }
+      </div>
+    );
   }
 
   const toggleDiv = () => {
     setIsOpen(!isOpen); // isOpen değerini tersine çevirir
+
   };
   return (
     <div>
@@ -263,12 +269,12 @@ function WeatherCityDetails() {
           ))}
         </div>
       </div>
-      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}> <Raincontrol forecast={dailyForecast[0]} /></div>
+      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}> <RainControl forecasts={dailyForecast} /></div>
       <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
-        <button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button>
+        <a href="#graphs" className=' w-full'><button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button></a>
       </div>
       {isOpen &&
-      <div className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
+      <div id="graphs" className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
         <Line data={TempChart} />
       </div>
       } 
