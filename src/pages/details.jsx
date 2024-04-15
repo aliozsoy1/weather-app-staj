@@ -24,7 +24,7 @@ function WeatherCityDetails() {
   useEffect(() => {
     const fetchCityDetails = async () => {
       try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`);
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?id=${cityName}&appid=${API_KEY}&units=metric`);
         setCityDetails(response.data);
         setErrorMsg(null); // Hata olmadığında hata mesajını temizle
       } catch (error) {
@@ -41,7 +41,7 @@ function WeatherCityDetails() {
 
     const fetchDailyForecast = async () => {
       try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API_KEY}&units=metric`);
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?id=${cityName}&appid=${API_KEY}&units=metric`);
         const data = response.data;
         const dailyData = extractDailyForecast(data.list);
         setDailyForecast(dailyData);

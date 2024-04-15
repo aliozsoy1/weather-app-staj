@@ -7,6 +7,7 @@ import axios from 'axios';
 function Home() {
   const [city, setCity] = useState('');
   const [cities, setCities] = useState([]);
+  const [cityids, setId] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
   const [country, setCountry] = useState('');
   const [userLocation, setUserLocation] = useState(null);
@@ -74,12 +75,12 @@ function Home() {
       if (data && data.list) {
         setCities(data.list.map(city => city.name));
         setCountry(data.list.map(city => city.sys.country));
+        setId(data.list.map(city => city.id));
       } else {
         setCities([]);
         setCountry('');
       }
     } catch (error) {
-      console.error('Error fetching city data:', error);
       setError('Could not fetch city data');
     }
   };
@@ -92,7 +93,6 @@ function Home() {
         const cityName = data.name;
         history(`/weather-app-staj/${cityName}`);
       } catch (error) {
-        console.error('Error fetching city data:', error);
         setError('Could not fetch city data');
       }
     }
@@ -113,7 +113,7 @@ function Home() {
           <ul>
             {cities.map((cityName, index) => (
               <li className='border-b border-solid border-textbox-bg text-left text-white  px-5 py-3 last:border-none' key={index}>
-                <button onClick={() => history(`/weather-app-staj/${cityName}`)}>{cityName}, {country[index]}</button>
+                <button onClick={() => history(`/weather-app-staj/${cityids[index]}`)}>{cityName}, {country[index]}</button>
               </li>
             ))}
           </ul>
