@@ -10,7 +10,7 @@ function WeatherCityDetails() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [dailyForecast, setDailyForecast] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const { cityName } = useParams();
+  const { cityId } = useParams();
   const API_KEY = '4fc3500e52a091eaabba7ee7145fed4b';
 
   const getDayName = (dateString) => {
@@ -24,7 +24,7 @@ function WeatherCityDetails() {
   useEffect(() => {
     const fetchCityDetails = async () => {
       try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?id=${cityName}&appid=${API_KEY}&units=metric`);
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${API_KEY}&units=metric`);
         setCityDetails(response.data);
         setErrorMsg(null); // Hata olmadığında hata mesajını temizle
       } catch (error) {
@@ -41,7 +41,7 @@ function WeatherCityDetails() {
 
     const fetchDailyForecast = async () => {
       try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?id=${cityName}&appid=${API_KEY}&units=metric`);
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${API_KEY}&units=metric`);
         const data = response.data;
         const dailyData = extractDailyForecast(data.list);
         setDailyForecast(dailyData);
@@ -64,7 +64,7 @@ function WeatherCityDetails() {
 
     fetchCityDetails();
     fetchDailyForecast();
-  }, [cityName, API_KEY]);
+  }, [cityId, API_KEY]);
 
   const extractDailyForecast = (forecastList) => {
     const dailyForecastData = {};

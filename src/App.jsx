@@ -11,7 +11,7 @@ function App() {
       <div>
         <Routes>
         <Route path="/weather-app-staj" element={ <Home/> } />
-        <Route path="/weather-app-staj/:cityName" element={ <Details/> } />
+        <Route path="/weather-app-staj/:cityId" element={ <Details/> } />
       </Routes>
       </div>
   );
