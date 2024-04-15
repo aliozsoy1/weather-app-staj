@@ -91,7 +91,8 @@ function Home() {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
         const data = response.data;
         const cityName = data.name;
-        history(`/weather-app-staj/${cityName}`);
+        const cityId = data.id;
+        history(`/weather-app-staj/${cityId}`);
       } catch (error) {
         setError('Could not fetch city data');
       }
