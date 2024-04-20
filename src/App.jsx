@@ -9,7 +9,7 @@ function App() {
 
   return (
       <div>
-        <Routes>
+      <Routes basename="/weather-app-staj">
         <Route path="/weather-app-staj" element={ <Home/> } />
         <Route path="/weather-app-staj/:cityId" element={ <Details/> } />
       </Routes>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2'; // Çizgi grafiği için gerekli import
 import '../App.css';
 import Chart from 'chart.js/auto';
+import { fetchCityDetails, fetchDailyForecast } from '../api/weatherApiDetails';
 
 function WeatherCityDetails() {
   const [cityDetails, setCityDetails] = useState(null);
@@ -11,60 +12,23 @@ function WeatherCityDetails() {
   const [dailyForecast, setDailyForecast] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const { cityId } = useParams();
-  const API_KEY = '4fc3500e52a091eaabba7ee7145fed4b';
-
-  const getDayName = (dateString) => {
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const date = new Date(dateString);
-    date.setDate(date.getDate());
-    const dayIndex = date.getDay();
-    return daysOfWeek[dayIndex];
-};
 
   useEffect(() => {
-    const fetchCityDetails = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${API_KEY}&units=metric`);
-        setCityDetails(response.data);
-        setErrorMsg(null); // Hata olmadığında hata mesajını temizle
+        const cityDetailsData = await fetchCityDetails(cityId);
+        const dailyForecastData = await fetchDailyForecast(cityId);
+        setCityDetails(cityDetailsData);
+        setDailyForecast(extractDailyForecast(dailyForecastData));
+        setErrorMsg(null);
       } catch (error) {
-        console.error('Error fetching city details:', error);
-        if (error.response && error.response.status === 404) {
-          setErrorMsg('City not found. Please enter a valid city name.');
-        } else if (error.response && error.response.status === 429) {
-          setErrorMsg('API limit exceeded. Please try again later.');
-        } else {
-          setErrorMsg('An error occurred while fetching city details. Please try again later.');
-        }
+        console.error('Error fetching data:', error);
+        setErrorMsg('An error occurred while fetching data. Please try again later.');
       }
     };
 
-    const fetchDailyForecast = async () => {
-      try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${API_KEY}&units=metric`);
-        const data = response.data;
-        const dailyData = extractDailyForecast(data.list);
-        setDailyForecast(dailyData);
-      } catch (error) {
-        console.error('Error fetching daily forecast:', error);
-        if (error.response) {
-          // API yanıtı alındı, ancak istek başarısız oldu (HTTP durum kodu başka bir şey)
-          console.error('Error response data:', error.response.data);
-          console.error('Error response status:', error.response.status);
-          console.error('Error response headers:', error.response.headers);
-        } else if (error.request) {
-          // Hiçbir yanıt alınamadı
-          console.error('No response was received:', error.request);
-        } else {
-          // Bir şey istek yaparken hata oluştu
-          console.error('An error occurred while making the request:', error.message);
-        }
-      }
-    };
-
-    fetchCityDetails();
-    fetchDailyForecast();
-  }, [cityId, API_KEY]);
+    fetchData();
+  }, [cityId]);
 
   const extractDailyForecast = (forecastList) => {
     const dailyForecastData = {};
@@ -86,25 +50,30 @@ function WeatherCityDetails() {
     });
     return Object.values(dailyForecastData);
   };
-  if (errorMsg) {
-    return <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>;
-  }
-  if (!cityDetails || dailyForecast.length === 0) {
-    return <div>Error. Please try again later.</div>;
-  }
-  
 
-  const temperature = Math.floor(cityDetails.main.temp);
-  const mintemperature = Math.floor(cityDetails.main.temp_min);
-  const maxtemperature = Math.floor(cityDetails.main.temp_max);
-  const windspeed = Math.floor(cityDetails.wind.speed);
-  const weatherCondition = cityDetails.weather[0].main.toLowerCase();
+  const getDayName = (dateString) => {
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const date = new Date(dateString);
+    date.setDate(date.getDate());
+    const dayIndex = date.getDay();
+    return daysOfWeek[dayIndex];
+  };
+
+  const toggleDiv = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const temperature = Math.floor(cityDetails?.main.temp);
+  const mintemperature = Math.floor(cityDetails?.main.temp_min);
+  const maxtemperature = Math.floor(cityDetails?.main.temp_max);
+  const windspeed = Math.floor(cityDetails?.wind.speed);
+  const weatherCondition = cityDetails?.weather[0].main.toLowerCase();
   const dayTime = isDayTime(cityDetails);
-  const raincarcontrol = cityDetails.weather[0].main;
+  const raincarcontrol = cityDetails?.weather[0].main;
 
   function isDayTime(details) {
-    const sunrise = details.sys.sunrise * 1000; 
-    const sunset = details.sys.sunset * 1000; 
+    const sunrise = details?.sys.sunrise * 1000;
+    const sunset = details?.sys.sunset * 1000;
     const currentTime = Date.now();
     return currentTime > sunrise && currentTime < sunset;
   }
@@ -145,7 +114,7 @@ function WeatherCityDetails() {
 
   const backgroundClass = getBackgroundClass(weatherCondition, dayTime);
 
-  const unixTimestamp = cityDetails.dt;
+  const unixTimestamp = cityDetails?.dt;
   const date = new Date(unixTimestamp * 1000);
   const dayIndex = date.getDay();
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -198,7 +167,6 @@ function WeatherCityDetails() {
   };
 
   const RainControl = ({ forecasts }) => {
-    // Beş günlük hava durumu tahminlerinde yağmur kontrolü yapılıyor
     const hasRainyDays = forecasts.slice(0, 5).some(forecast => forecast.raincarcontrol === 'Rain');
   
     return (
@@ -217,29 +185,28 @@ function WeatherCityDetails() {
     );
   }
 
-  const toggleDiv = () => {
-    setIsOpen(!isOpen); // isOpen değerini tersine çevirir
-
-  };
   return (
     <div>
-      <div className={"p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between mx-2 mt-2"}>
-        <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white w-full`}>
-          <h2 className='text-heading-sm font-text-bold'>{cityDetails.name}, {cityDetails.sys.country}</h2>
-          <h3 className='text-heading-xs font-text-normal mb-5'>{dayName}, {formattedDate}</h3>
-          <div className='flex flex-row items-center'>
-            <div className='mr-12'>
-              <h2 className='text-heading-xl font-heading-extrabold'>{temperature}°c</h2>
-              <h2 className='text-heading-sm font-text-bold'>{mintemperature}°c / {maxtemperature}°c</h2>
-              <h2 className='capitalize'>{cityDetails.weather[0].description}</h2>
-            </div>
-            <div className='ml-auto'>
-              <img src={`./images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
+      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
+      {cityDetails && dailyForecast.length > 0 && (
+        <div>
+          <div className={`p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between mx-2 mt-2`}>
+            <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white w-full`}>
+              <h2 className='text-heading-sm font-text-bold'>{cityDetails.name}, {cityDetails.sys.country}</h2>
+              <h3 className='text-heading-xs font-text-normal mb-5'>{dayName}, {formattedDate}</h3>
+              <div className='flex flex-row items-center'>
+                <div className='mr-12'>
+                  <h2 className='text-heading-xl font-heading-extrabold'>{temperature}°c</h2>
+                  <h2 className='text-heading-sm font-text-bold'>{mintemperature}°c / {maxtemperature}°c</h2>
+                  <h2 className='capitalize'>{cityDetails.weather[0].description}</h2>
+                </div>
+                <div className='ml-auto'>
+                  <img src={`./images/icons/${cityDetails.weather[0].icon}.svg`} alt="Weather Icon" className='w-[10rem]'/>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white mx-2"}>
+          <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white mx-2"}>
         <div className="flex flex-col space-y-3 w-full max-w-screen-sm p-3">
           <div className="flex justify-between items-center border-b border-base-700 pb-3">
             <span className="font-semibold text-lg pr-3">
@@ -295,24 +262,24 @@ function WeatherCityDetails() {
       </div>
       {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
       <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}> <RainControl forecasts={dailyForecast} /></div>
-      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
-        <a href="#graphs" className=' w-full'><button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button></a>
-      </div>
-      {isOpen &&
-      <div id="graphs" className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
-        <Line data={TempChart} />
-      </div>
-      } 
-      {isOpen &&
-      <div className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
-        <Line data={HumChart} />
-      </div>
-      }
-      {isOpen &&
-      <div className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
-        <Line data={WindChart} />
-      </div>
-      }
+          <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
+            <a href="#graphs" className=' w-full'><button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button></a>
+          </div>
+          {isOpen && (
+            <div>
+              <div id="graphs" className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
+                <Line data={TempChart} />
+              </div>
+              <div className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
+                <Line data={HumChart} />
+              </div>
+              <div className="px-5 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center text-white mx-2 mb-2">
+                <Line data={WindChart} />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

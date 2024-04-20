@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import viteLogo from '../images/logo.svg';
 import '../App.css';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { fetchWeatherByCoords, fetchCitiesByName } from '../api/weatherApi';
 
 function Home() {
   const [city, setCity] = useState('');
   const [cities, setCities] = useState([]);
-  const [cityids, setId] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
   const [country, setCountry] = useState('');
   const [userLocation, setUserLocation] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const API_KEY = '4fc3500e52a091eaabba7ee7145fed4b';
   const history = useNavigate();
 
   useEffect(() => {
@@ -24,7 +20,7 @@ function Home() {
         },
         (error) => {
           console.error('Error getting user location:', error);
-          setError('Could not retrieve user location');
+          setErrorMsg('Could not retrieve user location');
         }
       );
     };
@@ -35,25 +31,13 @@ function Home() {
   useEffect(() => {
     if (userLocation) {
       const fetchWeatherData = async () => {
-        setLoading(true);
         try {
-          const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
-          const data = response.data;
+          const data = await fetchWeatherByCoords(userLocation.latitude, userLocation.longitude);
           setCity(data.name);
           setCountry(data.sys.country);
         } catch (error) {
           console.error('Error fetching city details:', error);
-        if (error.response && error.response.status === 404) {
-          setErrorMsg('City not found. Please enter a valid city name.');
-        } else if (error.response && error.response.status === 429) {
-          setErrorMsg('API limit exceeded. Please try again later.');
-        } else if (error.response && error.response.status === 401) {
           setErrorMsg('An error occurred while fetching city details. Please try again later.');
-        }else {
-          setErrorMsg('An error occurred while fetching city details. Please try again later.');
-        }
-        } finally {
-          setLoading(false);
         }
       };
 
@@ -70,31 +54,22 @@ function Home() {
         setCities([]);
         return;
       }
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/find?q=${value}&type=like&appid=${API_KEY}`);
-      const data = response.data;
-      if (data && data.list) {
-        setCities(data.list.map(city => city.name));
-        setCountry(data.list.map(city => city.sys.country));
-        setId(data.list.map(city => city.id));
-      } else {
-        setCities([]);
-        setCountry('');
-      }
+      const cities = await fetchCitiesByName(value);
+      setCities(cities);
     } catch (error) {
-      setError('Could not fetch city data');
+      console.error('Error fetching city data:', error);
+      
     }
   };
 
   const getWeatherData = async () => {
     if (userLocation) {
       try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`);
-        const data = response.data;
-        const cityName = data.name;
-        const cityId = data.id;
-        history(`/weather-app-staj/${cityId}`);
+        const data = await fetchWeatherByCoords(userLocation.latitude, userLocation.longitude);
+        history(`/weather-app-staj/${data.id}`);
       } catch (error) {
-        setError('Could not fetch city data');
+        console.error('Error fetching city data:', error);
+        setErrorMsg('Could not fetch city data');
       }
     }
   };
@@ -112,9 +87,9 @@ function Home() {
         <input className='bg-textbox-bg px-6 py-4 w-full mt-7 rounded-lg placeholder:text-base-400 text-white' value={city} onChange={handleCityChange} name="myInput" placeholder='Search location'/>
         <div className='bg-city-list mt-2 shadow-[0_4px_30px_0px_rgba(0,0,0,0.4)] rounded-lg'>
           <ul>
-            {cities.map((cityName, index) => (
+            {cities.map((city, index) => (
               <li className='border-b border-solid border-textbox-bg text-left text-white  px-5 py-3 last:border-none' key={index}>
-                <button onClick={() => history(`/weather-app-staj/${cityids[index]}`)}>{cityName}, {country[index]}</button>
+                <button onClick={() => history(`/weather-app-staj/${city.id}`)}>{city.name}, {city.country}</button>
               </li>
             ))}
           </ul>
