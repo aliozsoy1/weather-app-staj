@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = '4fc3500e52a091eaabba7ee7145fed4b';
+const API_KEY = import.meta.env.VITE_REACT_APP_API_KEY;
 
 export const fetchWeatherByCoords = async (latitude, longitude) => {
   try {

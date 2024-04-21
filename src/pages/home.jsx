@@ -48,9 +48,9 @@ function Home() {
   const handleCityChange = async (e) => {
     const { value } = e.target;
     setCity(value);
-
+  
     try {
-      if (value === '') {
+      if (value.length < 3) {
         setCities([]);
         return;
       }
@@ -58,7 +58,6 @@ function Home() {
       setCities(cities);
     } catch (error) {
       console.error('Error fetching city data:', error);
-      
     }
   };
 
