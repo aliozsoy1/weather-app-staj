@@ -11,8 +11,7 @@
 
 ## Ekran Görüntüleri
 
-![Screenshot 1](/path/to/screenshot1.png)
-![Screenshot 2](/path/to/screenshot2.png)
+![Screenshot 1](./public/screenshots/screenshots-app.png)
 
 ## Kurulum
 
@@ -25,4 +24,4 @@
 
 Zafer hocama bu fikri verdiği için teşekkürler :)
 
-![Screenshot 3](./public/screenshots/zafer-hoca-arac-yikama.png)
+![Screenshot 2](./public/screenshots/zafer-hoca-arac-yikama.png)
