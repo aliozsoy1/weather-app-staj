@@ -23,4 +23,4 @@
 
 ## Ayrıca Teşekkürler
 
-![Screenshot 3](/screenshots/zafer-hoca-hava-durumu-arac-yikama.jpg)
+![Screenshot 3](./screenshots/zafer-hoca-hava-durumu-arac-yikama.jpg)
