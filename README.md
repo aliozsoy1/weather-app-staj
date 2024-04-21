@@ -1,8 +1,33 @@
-# React + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Weather App Screenshot](/path/to/screenshot.png)
 
-Currently, two official plugins are available:
+## Kullanılan Teknolojiler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- React Router
+- Tailwind CSS
+- OpenWeatherMap API
+
+## Ekran Görüntüleri
+
+![Screenshot 1](/path/to/screenshot1.png)
+![Screenshot 2](/path/to/screenshot2.png)
+
+## Kurulum
+
+1. Projeyi bilgisayarınıza indirin veya repoyu klonlayın.
+2. Terminalde proje dizinine gidin.
+3. `npm install` komutunu çalıştırarak bağımlılıkları yükleyin.
+4. `npm start` komutunu çalıştırarak uygulamayı başlatın.
+
+## Katkıda Bulunma
+
+1. Bu repo ile ilgili bir fork oluşturun.
+2. Yaptığınız değişiklikleri (`git commit -am 'Add new feature'`) commit'leyin.
+3. Değişikliklerinizi fork'unuza pushlayın (`git push origin feature`).
+4. Bir pull request oluşturun.
+
+## Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için [LICENSE](/path/to/LICENSE) dosyasına bakabilirsiniz.
