@@ -23,4 +23,5 @@
 
 ## Ayrıca Teşekkürler
 
-![Screenshot 3](./src/screenshots/zafer-hoca-hava-durumu-arac-yikama.png)
+Zafer hocama bu fikri verdiği için teşekkürler :)
+![Screenshot 3](./screenshots/zafer-hoca-hava-durumu-arac-yikama.png)
