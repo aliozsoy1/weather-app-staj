@@ -49,17 +49,23 @@ function Home() {
     setCity(value);
   
     try {
-      if (value.length < 3) {
-        setCities([]);
-        return;
-      }
-      const cities = await fetchCitiesByName(value);
-      setCities(cities);
+        if (value.length < 3) {
+            setCities([]);
+            return;
+        }
+        const cities = await fetchCitiesByName(value);
+        setCities(cities);
+        if (cities.length === 0) {
+            setErrorMsg('City not found');
+        } else {
+            setErrorMsg(null);
+        }
     } catch (error) {
-      console.error('Error fetching city data:', error);
-      setErrorMsg('An error occurred while fetching data. Please try again later.');
+        console.error('Error fetching city data:', error);
+        setErrorMsg('An error occurred while fetching data. Please try again later.');
     }
-  };
+};
+
 
   const getWeatherData = async () => {
     if (navigator.geolocation) {
