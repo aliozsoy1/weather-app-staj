@@ -57,6 +57,7 @@ function Home() {
       setCities(cities);
     } catch (error) {
       console.error('Error fetching city data:', error);
+      setErrorMsg('An error occurred while fetching data. Please try again later.');
     }
   };
 
@@ -103,7 +104,7 @@ function Home() {
         </div>
         <button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg mt-4" onClick={getWeatherData}>Get Weather for Current Location</button>
       </div>
-      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
+      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white"><img src="./images/icons/warning.svg" className='inline mr-3'></img>{errorMsg}</div>}
     </div>
   );
 }

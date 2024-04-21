@@ -186,7 +186,7 @@ function WeatherCityDetails() {
 
   return (
     <div>
-      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white ">{errorMsg}</div>}
+      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white"><img src="./images/icons/warning.svg" className='inline mr-3'></img>{errorMsg}</div>}
       {cityDetails && dailyForecast.length > 0 && (
         <div>
           <div className={`p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between mx-2 mt-2 animate-fade-left`}>
