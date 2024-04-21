@@ -20,7 +20,7 @@ function Home() {
         },
         (error) => {
           console.error('Error getting user location:', error);
-          setErrorMsg('Could not retrieve user location');
+          
         }
       );
     };
