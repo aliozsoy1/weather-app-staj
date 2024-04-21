@@ -1,6 +1,6 @@
 # iWeather
 
-![Weather App Screenshot](./src/logo.svg)
+![Weather App Screenshot](./src/images/logo.svg)
 
 ## Kullanılan Teknolojiler
 
@@ -16,10 +16,10 @@
 
 ## Kurulum
 
-1. Projeyi bilgisayarınıza indirin veya repoyu klonlayın.
+1. Projeyi bilgisayarınıza indirin veya repoyu klonlayın. https://github.com/aliozsoy1/weather-app-staj.git
 2. Terminalde proje dizinine gidin.
 3. `npm install` komutunu çalıştırarak bağımlılıkları yükleyin.
-4. `npm start` komutunu çalıştırarak uygulamayı başlatın.
+4. `npm run dev` komutunu çalıştırarak uygulamayı başlatın.
 
 ## Ayrıca Teşekkürler
 
