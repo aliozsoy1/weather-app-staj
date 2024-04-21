@@ -11,6 +11,13 @@
 - ChartJs
 - Tailwindcss Animated
 
+## Ana Özellikler
+
+- Şehir/İlçe ismi girilerek arama yapılabilmektedir.
+- Get Weather for Current Location butonu ile konum alınıp bu alınan konuma göre hava durumu görüntülenebilmektedir.
+- 5 Günlük hava durumu kontrol edilerek araba yıkayıp yıkamama uyarısı veriliyor.
+- More Weather Details butonu basıldığında grafikler açılmaktadır.
+
 ## Ekran Görüntüleri
 
 ![Screenshot 1](./public/screenshots/screenshots-app.png)
