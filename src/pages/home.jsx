@@ -36,7 +36,6 @@ function Home() {
           setCity(data.name);
           setCountry(data.sys.country);
         } catch (error) {
-          console.error('Error fetching city details:', error);
           setErrorMsg('An error occurred while fetching city details. Please try again later.');
         }
       };
@@ -62,14 +61,23 @@ function Home() {
   };
 
   const getWeatherData = async () => {
-    if (userLocation) {
+    if (navigator.geolocation) {
       try {
-        const data = await fetchWeatherByCoords(userLocation.latitude, userLocation.longitude);
-        history(`/weather-app-staj/${data.id}`);
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            const data = await fetchWeatherByCoords(latitude, longitude);
+            history(`/weather-app-staj/${data.id}`);
+          },
+          (error) => {
+            setErrorMsg('Could not retrieve user location. Please allow location access on your browser.');
+          }
+        );
       } catch (error) {
-        console.error('Error fetching city data:', error);
         setErrorMsg('Could not fetch city data');
       }
+    } else {
+      setErrorMsg('Geolocation is not supported by this browser.');
     }
   };
 
@@ -93,9 +101,9 @@ function Home() {
             ))}
           </ul>
         </div>
-        {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
         <button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg mt-4" onClick={getWeatherData}>Get Weather for Current Location</button>
       </div>
+      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
     </div>
   );
 }
