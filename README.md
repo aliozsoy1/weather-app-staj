@@ -1,6 +1,6 @@
-# Weather App
+# iWeather
 
-![Weather App Screenshot](/path/to/screenshot.png)
+![Weather App Screenshot](./src/logo.svg)
 
 ## Kullanılan Teknolojiler
 
@@ -24,4 +24,4 @@
 ## Ayrıca Teşekkürler
 
 Zafer hocama bu fikri verdiği için teşekkürler :)
-![Screenshot 3](./public/screenshots/zafer-hoca-hava-durumu-arac-yikama.png)
+![Screenshot 3](./public/screenshots/zafer-hoca-arac-yikama.png)
