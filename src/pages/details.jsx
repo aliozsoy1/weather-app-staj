@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { Line } from 'react-chartjs-2'; // Çizgi grafiği için gerekli import
 import '../App.css';
 import Chart from 'chart.js/auto';
@@ -187,10 +186,10 @@ function WeatherCityDetails() {
 
   return (
     <div>
-      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
+      {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white ">{errorMsg}</div>}
       {cityDetails && dailyForecast.length > 0 && (
         <div>
-          <div className={`p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between mx-2 mt-2`}>
+          <div className={`p-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between mx-2 mt-2 animate-fade-left`}>
             <div className={`weather-details ${backgroundClass} p-3 rounded-lg bg-cover bg-no-repeat text-white w-full`}>
               <h2 className='text-heading-sm font-text-bold'>{cityDetails.name}, {cityDetails.sys.country}</h2>
               <h3 className='text-heading-xs font-text-normal mb-5'>{dayName}, {formattedDate}</h3>
@@ -206,7 +205,7 @@ function WeatherCityDetails() {
               </div>
             </div>
           </div>
-          <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white mx-2"}>
+          <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-col items-center justify-between text-white mx-2 animate-fade-right"}>
         <div className="flex flex-col space-y-3 w-full max-w-screen-sm p-3">
           <div className="flex justify-between items-center border-b border-base-700 pb-3">
             <span className="font-semibold text-lg pr-3">
@@ -242,7 +241,7 @@ function WeatherCityDetails() {
           </div>
         </div>
     </div>
-    <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
+    <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2 animate-fade-left"}>
         <div className="flex flex-row w-full p-3 justify-between">
           {dailyForecast.map((forecast, index) => (
             <div key={index} className="flex flex-col items-center">
@@ -261,8 +260,8 @@ function WeatherCityDetails() {
         </div>
       </div>
       {errorMsg && <div className="fixed right-10 bottom-10 p-4 bg-textbox-bg text-white">{errorMsg}</div>}
-      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}> <RainControl forecasts={dailyForecast} /></div>
-          <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2"}>
+      <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2 animate-fade-right"}> <RainControl forecasts={dailyForecast} /></div>
+          <div className={"p-3 mt-3 rounded-lg bg-weather-details-bg flex flex-row items-center text-white mx-2 mb-2 animate-fade-up"}>
             <a href="#graphs" className=' w-full'><button className="bg-textbox-bg text-white w-full py-2 px-4 rounded-lg" onClick={toggleDiv}>More Weather Details</button></a>
           </div>
           {isOpen && (

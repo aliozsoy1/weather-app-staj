@@ -75,12 +75,12 @@ function Home() {
 
   return (
     <div className="flex flex-col items-center justify-between h-[80vh]">
-      <div className="mt-10"> 
+      <div className="mt-10 animate-fade-left"> 
         <a href="#" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
       </div>
-      <div className="my-auto text-center px-3"> 
+      <div className="my-auto text-center px-3 animate-fade-right"> 
         <h1 className='heading-md mb-2'>Welcome to <span className='text-product'>TypeWeather</span></h1>
         <p className='text-base-300'>Choose a location to see the weather forecast</p>
         <input className='bg-textbox-bg px-6 py-4 w-full mt-7 rounded-lg placeholder:text-base-400 text-white' value={city} onChange={handleCityChange} name="myInput" placeholder='Search location'/>

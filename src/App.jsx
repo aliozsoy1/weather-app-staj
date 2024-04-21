@@ -5,7 +5,6 @@ import Details from './pages/details';
 import './App.css';
 
 function App() {
-  
 
   return (
       <div>
