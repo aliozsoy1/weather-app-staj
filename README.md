@@ -24,4 +24,5 @@
 ## Ayrıca Teşekkürler
 
 Zafer hocama bu fikri verdiği için teşekkürler :)
+
 ![Screenshot 3](./public/screenshots/zafer-hoca-arac-yikama.png)
