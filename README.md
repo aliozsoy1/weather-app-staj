@@ -21,13 +21,6 @@
 3. `npm install` komutunu çalıştırarak bağımlılıkları yükleyin.
 4. `npm start` komutunu çalıştırarak uygulamayı başlatın.
 
-## Katkıda Bulunma
+## Ayrıca Teşekkürler
 
-1. Bu repo ile ilgili bir fork oluşturun.
-2. Yaptığınız değişiklikleri (`git commit -am 'Add new feature'`) commit'leyin.
-3. Değişikliklerinizi fork'unuza pushlayın (`git push origin feature`).
-4. Bir pull request oluşturun.
-
-## Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için [LICENSE](/path/to/LICENSE) dosyasına bakabilirsiniz.
+![Screenshot 3](/screenshots/zafer-hoca-hava-durumu-arac-yikama.jpg)
