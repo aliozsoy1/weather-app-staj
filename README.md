@@ -4,10 +4,12 @@
 
 ## Kullanılan Teknolojiler
 
-- React
+- React + Vite
 - React Router
 - Tailwind CSS
 - OpenWeatherMap API
+- ChartJs
+- Tailwindcss Animated
 
 ## Ekran Görüntüleri
 
