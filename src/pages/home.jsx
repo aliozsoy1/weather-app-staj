@@ -67,7 +67,7 @@ function Home() {
         const data = await fetchWeatherByCoords(userLocation.latitude, userLocation.longitude);
         history(`/weather-app-staj/${data.id}`);
       } catch (error) {
-        console.error('Error fetching city data:', error);
+        console.error('Error fetching city data: ', error);
         setErrorMsg('Could not fetch city data');
       }
     }
