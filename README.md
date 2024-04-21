@@ -15,6 +15,10 @@
 
 ![Screenshot 1](./public/screenshots/screenshots-app.png)
 
+## Demo
+
+https://aliozsoy1.github.io/weather-app-staj/745042
+
 ## Kurulum
 
 1. Projeyi bilgisayarınıza indirin veya repoyu klonlayın. https://github.com/aliozsoy1/weather-app-staj.git
