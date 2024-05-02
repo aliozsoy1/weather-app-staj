@@ -24,7 +24,7 @@
 
 ## Demo
 
-https://aliozsoy1.github.io/weather-app-staj/745042
+https://aliozsoy1.github.io/weather-app-staj/
 
 ## Kurulum
 
